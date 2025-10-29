@@ -120,8 +120,8 @@ For this project we will uses Oracle Vitualbox Virtual Machine for simulating th
 
 * We are using Auth0 for our login services. To config Auth0 please goto the website
 `https://auth0.com/`. 
-    1. You just need to fill in the "domain" and "clientId".
-    2. For the certificate (in case you needed), you can find it in the advance section.  
+    1. You just need to fill in the "domain" and "clientId". (change in the client/src/config.ts)
+    2. For the certificate (in case you need), you can find it in the advance section which is at the bottom of the menu, if everything remains the same the certificate item should be on the last tab.   
 
 
 ## References

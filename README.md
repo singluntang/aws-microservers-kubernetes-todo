@@ -91,7 +91,7 @@ For this project we will uses Oracle Vitualbox Virtual Machine for simulating th
             - env-configmap.yaml
                 * Make sure all these variables are correct. This is pretty self explanatory. You should know where to get these values if the are not   already saved in your bash profile.
 
-        * CONSISTENCY IS KEY!!!
+        * The envirionment variable EXACT names and CASE SENSITIVE IS THE KEY!!!
 
             - NOTE: I changed my AWS_MEDIA_BUCKET to AWS_BUCKET, but I did a find and replace. So all instances that pointed to AWS_MEDIA_BUCKET now     pointed to AWS_BUCKET. This is because Ruttner and Scheele call it two different things.
 

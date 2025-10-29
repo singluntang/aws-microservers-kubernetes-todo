@@ -5,7 +5,8 @@
 * [OverView](#OverView)
 * [Setup Environment](#Setting-Environment)
 * [Installation Docker](#Installation-Docker)
-* [Installation Kubernetes](#Installation-Kubernetes)
+* [Installation Application](#Installation-Application)
+* [Config Auth0](#Config-Auth0)
 * [Project Reference Sources Or Links](#references)
 
 ## OverView
@@ -115,7 +116,7 @@ For this project we will uses Oracle Vitualbox Virtual Machine for simulating th
 
             Its helpful to look at the logs if something is wrong. It’ll show you the code output in your containers should you need to debug.  
 
-## Config Auth0
+## Config-Auth0
 
 * We are using Auth0 for our login services. To config Auth0 please goto the website
 `https://auth0.com/`. 

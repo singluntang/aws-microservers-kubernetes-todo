@@ -113,7 +113,16 @@ For this project we will uses Oracle Vitualbox Virtual Machine for simulating th
 
             Kubectl describe pod/svc/rs/deployment ${name of pod/service/replicaset/deployment} Kubectl log ${name of pod/service/replicatset/deployemnt}
 
-            Its helpful to look at the logs if something is wrong. It’ll show you the code output in your containers should you need to debug.        
+            Its helpful to look at the logs if something is wrong. It’ll show you the code output in your containers should you need to debug.  
+
+## Config Auth0
+
+* We are using Auth0 for our login services. To config Auth0 please goto the website
+`https://auth0.com/`. 
+    1. You just need to fill in the "domain" and "clientId".
+    2. For the certificate (in case you needed), you can find it in the advance section.  
+
+
 ## References
 
 * Code References

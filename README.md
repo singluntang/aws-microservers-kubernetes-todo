@@ -30,17 +30,17 @@ For this project we will uses Oracle Vitualbox Virtual Machine for simulating th
     For Windows, Open the `File Explorer` and right click the `The PC`, Select the properties. From pop-up window choose `Advance System Settings`, then choose `Environment Variables`.
 
     Please add the following Environment Variables (fill in your values, for secret fill in 'jwt').
-    - todos_table
-    - users_todo_table
-    - userid_index
-    - todos_s3_bucket
-    - thumbnails_s3_bucket
-    - signed_url_expiration
-    - bucket_region
-    - aws_reigion
-    - aws_profile
-    - url
-    - secret
+    - TODO_TABLE
+    - USERS_TODO_TABLE
+    - USERID_INDEX
+    - TODOS_S3_BUCKET
+    - THUMBNAILS_S3_BUCKET
+    - SIGNED_URL_EXPIRATION
+    - AWS_REGION
+    - AWS_PROFILE
+    - TODO_VERSION
+    - URL
+    - JWT_SECRET
     
 ## Installation-Application
 

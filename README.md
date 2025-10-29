@@ -58,62 +58,62 @@ For this project we will uses Oracle Vitualbox Virtual Machine for simulating th
 
 ## Installation-Kubernetes 
 
-    * From the Docker machine copy the whole folder `k8s`. (inside the `todo-deployment/k8s` folder) to the kubernetes virtual machine.
+* From the Docker machine copy the whole folder `k8s`. (inside the `todo-deployment/k8s` folder) to the kubernetes virtual machine.
 
-        1. export both your AWS_ACCESS_KEY_ID and export AWS_SECRET_ACCESS_KEY in your terminal. If you quit your bash session you’ll have to do this again. Execute echo $AWS_ACCESS_KEY_ID to make sure you’ve done this correctly.
+    1. export both your AWS_ACCESS_KEY_ID and export AWS_SECRET_ACCESS_KEY in your terminal. If you quit your bash session you’ll have to do this again. Execute echo $AWS_ACCESS_KEY_ID to make sure you’ve done this correctly.
 
-        2. download Terraform or you can use it from the terraform folder and kubeone per the resources above.
+    2. download Terraform or you can use it from the terraform folder and kubeone per the resources above.
 
-        3. Follow the instructions
+    3. Follow the instructions
 
-            * POTENTIAL ERRORS: “Handshake”
+        * POTENTIAL ERRORS: “Handshake”
 
-                This has to do with your public/private rsa id
+            This has to do with your public/private rsa id
 
-                once you’ve executed terraform apply take a look at this: https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+            once you’ve executed terraform apply take a look at this: https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 
-                Specifically the section relating to “Adding your SSH key to the ssh-agent”. I found after my cluster was up but before I installed kubeone, I ran the agent and executing ssh-add I was able to execute kubeone install config.yaml -t tf.json and it worked.
+            Specifically the section relating to “Adding your SSH key to the ssh-agent”. I found after my cluster was up but before I installed kubeone, I ran the agent and executing ssh-add I was able to execute kubeone install config.yaml -t tf.json and it worked.
 
-                Make sure you then execute: export KUBECONFIG=$PWD/${name of your cluster}-kubeconfig
+            Make sure you then execute: export KUBECONFIG=$PWD/${name of your cluster}-kubeconfig
 
-            * Deploying Everything - please read this article https://medium.com/@alexander_15213/running-ha-kubernetes-clusters-on-aws-using-kubeone-535b93af57ab
-            
-            Things to solve ahead of time:
-                you can deploy all services by typing this command 
-                "kubectl apply -f file_name.yaml" from the todo-deployment/k8s folder.
+        * Deploying Everything - please read this article https://medium.com/@alexander_15213/running-ha-kubernetes-clusters-on-aws-using-kubeone-535b93af57ab
+        
+        Things to solve ahead of time:
+            you can deploy all services by typing this command 
+            "kubectl apply -f file_name.yaml" from the todo-deployment/k8s folder.
 
-                - aws-secret.yaml
-                    * Find your credentials in ~/.aws/credentials. Find the aws_secret_access_key associated with this project.
-                    You need to save your key in base64 —> echo -n ${your key here} | base64 —> this output is what you save under “credentials” in your aws-secret.yaml file.
-                - env-secret.yaml
-                    * Repeat the process above for your POSTGRESS_USERNAME / POSTGRESS_PASSWORD
-                    Both of those variable should be in your bash_profile. If they are then just execute echo -n $POSGRESS_USERNAME or POSTGRESS_PASSWORD| base64 for the correct values.
-                - env-configmap.yaml
-                    * Make sure all these variables are correct. This is pretty self explanatory. You should know where to get these values if the are not   already saved in your bash profile.
+            - aws-secret.yaml
+                * Find your credentials in ~/.aws/credentials. Find the aws_secret_access_key associated with this project.
+                You need to save your key in base64 —> echo -n ${your key here} | base64 —> this output is what you save under “credentials” in your aws-secret.yaml file.
+            - env-secret.yaml
+                * Repeat the process above for your POSTGRESS_USERNAME / POSTGRESS_PASSWORD
+                Both of those variable should be in your bash_profile. If they are then just execute echo -n $POSGRESS_USERNAME or POSTGRESS_PASSWORD| base64 for the correct values.
+            - env-configmap.yaml
+                * Make sure all these variables are correct. This is pretty self explanatory. You should know where to get these values if the are not   already saved in your bash profile.
 
-            * CONSISTENCY IS KEY!!!
+        * CONSISTENCY IS KEY!!!
 
-                - NOTE: I changed my AWS_MEDIA_BUCKET to AWS_BUCKET, but I did a find and replace. So all instances that pointed to AWS_MEDIA_BUCKET now     pointed to AWS_BUCKET. This is because Ruttner and Scheele call it two different things.
+            - NOTE: I changed my AWS_MEDIA_BUCKET to AWS_BUCKET, but I did a find and replace. So all instances that pointed to AWS_MEDIA_BUCKET now     pointed to AWS_BUCKET. This is because Ruttner and Scheele call it two different things.
 
-                NOTE: I changed all my POSTGRESS_DB to POSTGRESS_DATABASE. It doesn’t matter. Just be consistent. Save your self the head ache and figure this out now rather than debugging it in the most agonizing, foolish way possible —> pods break, restart, break, restart, etc…
+            NOTE: I changed all my POSTGRESS_DB to POSTGRESS_DATABASE. It doesn’t matter. Just be consistent. Save your self the head ache and figure this out now rather than debugging it in the most agonizing, foolish way possible —> pods break, restart, break, restart, etc…
 
-                OK, so everything is saved properly, your clusters are up.
-                Kubectl apply -f [all your files] This should be about 11 in total
+            OK, so everything is saved properly, your clusters are up.
+            Kubectl apply -f [all your files] This should be about 11 in total
 
-                If your reserve proxy is not running: Execute: kubectl logs ${your pod name here}
+            If your reserve proxy is not running: Execute: kubectl logs ${your pod name here}
 
-                If you see anything relating to a “taint” then you don’t have enough resources. You’ll notice on the videos scheele has two worker nodes and 3 masters. When I spun this up I had 1 worker node and 3 masters.
-                Execute this to enable a master as a worker node —> this is how I fixed this problem: kubectl taint node ${your node here}- role.kubernetes.io/master:NoSchedule-
+            If you see anything relating to a “taint” then you don’t have enough resources. You’ll notice on the videos scheele has two worker nodes and 3 masters. When I spun this up I had 1 worker node and 3 masters.
+            Execute this to enable a master as a worker node —> this is how I fixed this problem: kubectl taint node ${your node here}- role.kubernetes.io/master:NoSchedule-
 
-                To find your node value execute kubectl get nodes -o wide. Copy the NAME for all nodes that are MASTERS into the bash command above. This should fix your problem.
+            To find your node value execute kubectl get nodes -o wide. Copy the NAME for all nodes that are MASTERS into the bash command above. This should fix your problem.
 
-                If you have any “CrashLoopBackOff” Errors then you have a variable issue. Make sure your env-configmap.yaml has the proper values. If need be: Kubectl delete secret env-config update your env-configmap.yaml Kubectl apply -f env-configmap.yaml
+            If you have any “CrashLoopBackOff” Errors then you have a variable issue. Make sure your env-configmap.yaml has the proper values. If need be: Kubectl delete secret env-config update your env-configmap.yaml Kubectl apply -f env-configmap.yaml
 
-            * Helpful commands:
+        * Helpful commands:
 
-                Kubectl describe pod/svc/rs/deployment ${name of pod/service/replicaset/deployment} Kubectl log ${name of pod/service/replicatset/deployemnt}
+            Kubectl describe pod/svc/rs/deployment ${name of pod/service/replicaset/deployment} Kubectl log ${name of pod/service/replicatset/deployemnt}
 
-                Its helpful to look at the logs if something is wrong. It’ll show you the code output in your containers should you need to debug.        
+            Its helpful to look at the logs if something is wrong. It’ll show you the code output in your containers should you need to debug.        
 ## References
 
 * Code References
